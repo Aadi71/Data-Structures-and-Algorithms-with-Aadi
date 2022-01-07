@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+struct stack{
+    int size;
+    int top;
+    int * arr;
+};
+
+int isEmpty(struct stack * ptr){
+    if(ptr->top == -1) return 1;
+    return 0;
+}
+
+int isFull(struct stack * ptr){
+    if(ptr->top == ptr->size - 1) return 1;
+    return 0;
+}
+
+void push(struct stack* ptr, int val){
+    if(isFull(ptr))cout<<"Stack Overflow!"<<endl;
+    else{
+        ptr->top++;
+        ptr->arr[ptr->top] = val;
+    }
+}
+
+int pop(struct stack * ptr){
+    if(isEmpty(ptr)) cout<<"Stack UnderFlow"<<endl;
+    else{
+        int val = ptr->arr[ptr->top];
+        ptr->top--;
+        return val;
+    }
+}
+
+int peek(struct stack * ptr, int i){
+    int index = ptr->top - i + 1;
+    if(index<0){
+        cout<<"Not a valid position"<<endl;
+        return -1;
+    }
+    else{
+        return ptr->arr[index];
+    }
+
+}
+
+int stackTop(struct stack* ptr){
+    return ptr->arr[ptr->top];
+}
+ 
+int stackBottom(struct stack* ptr){
+    return ptr->arr[0];
+}
+
+int main(){
+    struct stack * s;
+    s->size = 10;
+    s->top = -1;
+    s ->arr= (int *)malloc(sizeof(int));
+    
+    for (int j = 1; j <= s->top + 1; j++)
+    {
+        cout<<peek(s, j)<<" ";
+    }
+
+    return 0;
+}
