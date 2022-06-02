@@ -86,6 +86,22 @@ int main() {
 
 // Problem 5: https://www.codechef.com/START41D/problems/PATHPAR
 
+int main() {
+	int t;
+	cin>>t;
+	
+	while(t--){
+	    int n, k;
+	    cin>>n>>k;
+	    
+	    if(n%2 == 0 || (n%2 == 1 && k == 1)) cout<<"YES";
+	    else cout<<"NO";
+	    cout<<"\n";
+	}
+	return 0;
+}
+
+
 // Problem 6: https://www.codechef.com/START41D/problems/ISPAR
 
 // Problem 7: https://www.codechef.com/START41D/problems/ISPAR
