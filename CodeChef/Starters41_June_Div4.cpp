@@ -104,6 +104,23 @@ int main() {
 
 // Problem 6: https://www.codechef.com/START41D/problems/ISPAR
 
+int main() {
+	int t;
+	cin>>t;
+	
+	while(t--){
+	    long long n, k;
+	    cin>>n>>k;
+	    
+	    if(k == 1 && (n&1) || k == 2)
+	        cout<<"ODD";
+	    else cout<<"EVEN";
+	    cout<<"\n";
+	}
+	
+	return 0;
+}
+
 // Problem 7: https://www.codechef.com/START41D/problems/ISPAR
 
 // Problem 8: https://www.codechef.com/START41D/problems/DEARRANGE
