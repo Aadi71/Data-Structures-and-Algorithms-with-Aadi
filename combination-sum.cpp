@@ -3,31 +3,23 @@
 
 class Solution {
 public:
-    void findNumbers(vector<int>& c, vector<int> &r, vector<vector<int>> &v, int sum, int i){
-        if(sum == 0){
-            v.push_back(r);
+    void solve(int i, vector<vector<int>> &res, vector<int>& candidates, int target, vector<int>& temp){
+        if(i == candidates.size()){
+            if(target == 0) res.push_back(temp);
             return;
         }
-        
-        while(i < c.size() && sum - c[i] >=0){
-            r.push_back(c[i]);
-            findNumbers(c, r, v, sum - c[i], i);
-            for(int i = 0; i<r.size(); i++) cout<<r[i]<<" ";
-            cout<<endl;
-            i++;
-            
-            r.pop_back();
+        if(candidates[i] <= target){
+            temp.push_back(candidates[i]);
+            solve(i, res, candidates, target - candidates[i], temp);
+            temp.pop_back();
         }
+        solve(i + 1, res, candidates, target, temp);
+        
     }
-    
-    vector<vector<int>> combinationSum(vector<int>& c, int target) {
-        sort(c.begin(), c.end());
-        c.erase(unique(c.begin(), c.end()), c.end());
-        
-        vector<int> r;
-        vector<vector<int>> v;
-        
-        findNumbers(c, r, v, target, 0);
-        return v;
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> temp;
+        solve(0, res, candidates, target, temp);
+        return res;
     }
 };
