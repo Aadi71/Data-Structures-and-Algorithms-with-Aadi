@@ -10,7 +10,6 @@ public:
     }
     string reverseWords(string s) {
         string str = "";
-        stack<string> st;
         for(int i = 0; i<s.length(); i++){
             string temp = "";
             while(i < s.length() && s[i] != ' ' && i != s.length())
