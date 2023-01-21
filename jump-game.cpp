@@ -1,5 +1,7 @@
 https://leetcode.com/problems/jump-game/
 
+// Recursive -> Memoization with Stack -> Memoization witout Stack(Optimized) -> Greedy - Best Approach
+
 // Recursive Approach - Gives TLE
 class Solution {
 public:
