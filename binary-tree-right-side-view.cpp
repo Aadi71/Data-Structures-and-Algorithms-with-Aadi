@@ -1,5 +1,22 @@
 // https://leetcode.com/problems/binary-tree-right-side-view/
 
+// Recursive Traversal - Root, right, left
+class Solution {
+public:
+    vector<int> ans;
+    void solve(TreeNode* node, int level){
+        if(!node) return;
+        if(level == ans.size()) ans.push_back(node -> val);
+        if(node -> right) solve(node -> right, level + 1);
+        if(node -> left) solve(node -> left, level + 1);
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        solve(root, 0);
+        return ans;
+    }
+};
+
+// Iterative Traversal - Level Order
 class Solution {
 public:
     vector<int> rightSideView(TreeNode* root) {
