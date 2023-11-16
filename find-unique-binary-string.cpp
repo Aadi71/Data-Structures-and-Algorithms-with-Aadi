@@ -32,7 +32,7 @@ class Solution {
 };
 
 
-// Optimized apporach - diagonal
+// Optimized apporach - Cantor's Diagonal Argument
 
 class Solution {
 public:
