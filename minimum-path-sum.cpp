@@ -3,44 +3,37 @@
 // Recursive Solution - Giving TLE as time complexity is exponential. TC - O(2 ^ (m X n))
 class Solution {
 public:
-    bool valid(int i, int j, int m, int n){
-        if(i >= 0 && j >= 0 && i < m && j < n) return true;
-        return false;
-    }
-    int solve(int i, int j, int m, int n, int sum, vector<vector<int>>& grid){
-        if (valid(i, j, m, n) == false) return INT_MAX;
-        sum += grid[i][j];
-        if(i == m - 1 && j == n - 1) return sum;
-        return min(solve(i + 1, j, m, n, sum, grid), solve(i, j + 1, m, n, sum, grid));
+    int solve(int m, int n, int i, int j, vector<vector<int>>& grid) {
+        if (i == (m-1) && j == (n-1)) {
+            return grid[m - 1][n - 1];
+        }
+        else if (i >= m || j >= n) return INT_MAX;
+        return grid[i][j] + min(solve(m, n, i + 1, j, grid), solve(m, n, i, j + 1, grid));
     }
     int minPathSum(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        return solve(0, 0, m, n, 0, grid);
+        return solve(grid.size(), grid[0].size(), 0, 0, grid);
     }
-};  
+};
 
 // Memoization - Not Accpeted, giving TLE.
 class Solution {
 public:
-    bool valid(int i, int j, int m, int n){
-        if(i >= 0 && j >= 0 && i < m && j < n) return true;
-        return false;
-    }
-    int solve(int i, int j, int m, int n, int sum, vector<vector<int>>& grid, vector<vector<int>> &dp){
-        if (valid(i, j, m, n) == false) return INT_MAX;
-        sum += grid[i][j];
-        if(i == m - 1 && j == n - 1) return dp[i][j] = sum;
-        if(dp[i][j] != INT_MAX) return dp[i][j];
-        return min(solve(i + 1, j, m, n, sum, grid, dp), solve(i, j + 1, m, n, sum, grid, dp));
+    int solve(int m, int n, int i, int j, vector<vector<int>>& grid, vector<vector<int>> &dp) {
+        if (i == (m-1) && j == (n-1)) {
+            return grid[m - 1][n - 1];
+        }
+        else if (i >= m || j >= n) return INT_MAX;
+        if (dp[i][j] != -1) return dp[i][j];
+        return dp[i][j] = grid[i][j] + min(solve(m, n, i + 1, j, grid, dp), solve(m, n, i, j + 1, grid, dp));
     }
     int minPathSum(vector<vector<int>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
-        vector<vector<int>> dp(m, vector<int> (n, INT_MAX));
-        return solve(0, 0, m, n, 0, grid, dp);
+
+        vector<vector<int>> dp (m, vector<int> (n, -1));
+        return solve(m, n, 0, 0, grid, dp);
     }
-};  
+};
 
 // Tabulation and Memoization
 class Solution {
@@ -48,15 +41,42 @@ public:
     int minPathSum(vector<vector<int>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
-        vector<vector<int>> dp(m, vector<int> (n, INT_MAX));
-        dp[m - 1][n - 1] = grid[m - 1][n - 1];
-        for(int i = m - 2; i >= 0; i--) dp[i][n - 1] = grid[i][n - 1] + dp[i + 1][n - 1];
-        for(int j = n - 2; j >= 0; j--) dp[m - 1][j] = grid[m - 1][j] + dp[m - 1][j + 1];
-        for(int i = m - 2; i >= 0; i--){
-            for(int j = n - 2; j>= 0; j--){
-                dp[i][j] = min(grid[i][j] + dp[i + 1][j], grid[i][j] + dp[i][j + 1]);
+        vector<vector<int>> dp(m, vector<int> (n, 0));
+        for(int i = m - 1; i >= 0; i--) {
+            for(int j = n - 1; j >= 0; j--) {
+                int d = INT_MAX;
+                int r = INT_MAX;
+                if (i + 1 < m) d = grid[i][j] + dp[i + 1][j];
+                if (j + 1 < n) r = grid[i][j] + dp[i][j + 1];
+                if(i == m - 1 && j == n - 1) dp[i][j] = grid[i][j];
+                else dp[i][j] = min(d, r);
             }
         }
         return dp[0][0];
+    }
+};
+
+
+// Space Optimization
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> dp(m, vector<int> (n, 0));
+        vector<int> prev(n, 0);
+        vector<int> curr(n, 0);
+        for(int i = m - 1; i >= 0; i--) {
+            for(int j = n - 1; j >= 0; j--) {
+                int d = INT_MAX;
+                int r = INT_MAX;
+                if (i + 1 < m) d = grid[i][j] + prev[j];
+                if (j + 1 < n) r = grid[i][j] + curr[j + 1];
+                if(i == m - 1 && j == n - 1) curr[j] = grid[i][j];
+                else curr[j] = min(d, r);
+            }
+            prev = curr;
+        }
+        return curr[0];
     }
 };
