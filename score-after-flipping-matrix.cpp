@@ -1,5 +1,8 @@
 // https://leetcode.com/problems/score-after-flipping-matrix/description/
 
+// Logic: There are only two rules that you need to know in this problem. If the first number in the row is 0, flip the row. If the count of 0 in the col is greater than the count of 1, flip the col.
+// why? because "1000..." is always larger than "0111...". No matter how many '1' you have after a leading '0', a leading '1' is always a better choice. The rest of the algorithm is just aiming for as much '1' as possible on every bit.
+
 class Solution {
 public:
     int matrixScore(vector<vector<int>>& grid) {
