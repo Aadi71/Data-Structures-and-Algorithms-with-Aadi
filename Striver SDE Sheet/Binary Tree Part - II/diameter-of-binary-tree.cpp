@@ -1,4 +1,5 @@
 // https://leetcode.com/problems/diameter-of-binary-tree/
+// TC: O(N^2)
 
 class Solution {
 public:
@@ -14,5 +15,27 @@ public:
         int d = 0;
         height(root, d);
         return d;
+    }
+};
+
+// Post Order Traversal (DFS Height)
+class Solution {
+public:
+    int ans = 0;
+    int dfsHeight(TreeNode* root) {
+        if (root == NULL) return 0;
+
+        int left = dfsHeight(root -> left);
+        int right = dfsHeight(root -> right);
+
+        ans = max(ans, left + right);
+        return 1 + max(left, right);
+    }
+
+    int diameterOfBinaryTree(TreeNode* root) {
+        if (root == NULL) return 0;
+
+        dfsHeight(root);
+        return ans;
     }
 };
